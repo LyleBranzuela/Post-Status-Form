@@ -122,8 +122,8 @@
                     </div>
                     <!-- Status Form Buttons (Post and Reset) -->
                     <div class="row float-middle">
-                        <input type="submit" class="btn btn-customMain col-sm-6" value="Post">
                         <input type="reset" class="btn btn-customMain col-sm-6">
+                        <input type="submit" class="btn btn-customMain col-sm-6" value="Post">
                     </div>
                 </form>
             </div>

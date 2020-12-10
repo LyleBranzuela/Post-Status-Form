@@ -108,7 +108,7 @@
                 $statusTextFormatValid = (!empty($statusText));
 
                 // Check if the Status Code is Unique
-                $checkQuery = "SELECT COUNT(*) AS duplicates FROM $sql_tble WHERE statusCode = \"$statusCode\"";
+                $checkQuery = "SELECT COUNT(*) AS duplicates FROM status WHERE statusCode = \"$statusCode\"";
                 $countResult = mysqli_query($conn, $checkQuery);
                 $duplicateAmount = mysqli_fetch_assoc($countResult);
                 $statusCodeUniqueValid = ($duplicateAmount['duplicates'] == 0); // Update Status Code Uniqueness Flag
@@ -126,23 +126,15 @@
                 }
 
                 // Check if the table exists, create if it still doesn't
-                $checkQuery = "SELECT * FROM $sql_tble";
+                $checkQuery = "SELECT ID FROM status";
                 $checkResult = mysqli_query($conn, $checkQuery);
                 if (empty($checkResult)) {
-                    $createQuery = "CREATE TABLE USERS (
-                        ID int(11) AUTO_INCREMENT,
-                        EMAIL varchar(255) NOT NULL,
-                        PASSWORD varchar(255) NOT NULL,
-                        PERMISSION_LEVEL int,
-                        APPLICATION_COMPLETED int,
-                        APPLICATION_IN_PROGRESS int,
-                        PRIMARY KEY  (ID)
-                        )";
+                    $createQuery = "create table status (statusCode varchar(5) NOT NULL UNIQUE, statusText text NOT NULL, datePosted Date NOT NULL, shareSetting varchar(40), permType varchar(40));";
                     $checkResult = mysqli_query($conn, $createQuery);
                 }
 
                 // Set up the SQL command to add the data into the table
-                $query = "insert into $sql_tble"
+                $query = "insert into status"
                     . "(statusCode, statusText, datePosted, shareSetting, permType)"
                     . "values"
                     . "('$statusCode','$statusText','$dbDate', '$shareSetting', '$permType')";
