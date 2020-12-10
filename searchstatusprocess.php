@@ -43,14 +43,17 @@
         <!-- PHP Code to process search information in the Form -->
         <?php
 
-        require_once('../../conf/assignsqlinfo.inc.php');
-        // mysqli_connect returns false if connection failed, otherwise a connection value
-        $conn = @mysqli_connect(
-            $sql_host,
-            $sql_user,
-            $sql_pass,
-            $sql_db
-        );
+        // require_once('../../conf/assignsqlinfo.inc.php');
+        // // mysqli_connect returns false if connection failed, otherwise a connection value
+        // $conn = @mysqli_connect(
+        //     $sql_host,
+        //     $sql_user,
+        //     $sql_pass,
+        //     $sql_db
+        // );
+
+        // SQLite Connect for Heroku
+        $conn = pg_connect(getenv("DATABASE_URL"));
 
         // Initialising the Validation / Confirmation Variables
         $databaseHasConn = $databaseSearchValid = $searchTextValid = false;
@@ -68,7 +71,7 @@
                     $statusText = $_GET["statusText"];
                     // Make and Execute the query for the search
                     $query = "SELECT * FROM $sql_tble WHERE statusText LIKE '%$statusText%'";
-                    $result = mysqli_query($conn, $query);
+                    $result = pg_query($conn, $query);
 
                     if (!$result) {
                         $databaseSearchValid = false;
@@ -76,8 +79,8 @@
                         $databaseSearchValid = true;
                         // Count the amount of Searches found in the database
                         $countSearchQuery = "SELECT COUNT(*) AS searches FROM $sql_tble WHERE statusText LIKE '%$statusText%'";
-                        $countResult = mysqli_query($conn, $countSearchQuery);
-                        $searchAmount = mysqli_fetch_assoc($countResult);
+                        $countResult = pg_query($conn, $countSearchQuery);
+                        $searchAmount = pg_fetch_assoc($countResult);
 
 
                         // Checks and Validiation
@@ -120,7 +123,7 @@
                             }
                         } else {
                             // Looping through the statusText field using a result pointer
-                            while ($row = mysqli_fetch_assoc($result)) {
+                            while ($row = pg_fetch_assoc($result)) {
                                 $tbodyColor = ($rowCount % 2) ? "subThemeColor4" : "subThemeColor3";
                                 echo "<tbody class=\"$tbodyColor\">";
                                 echo "<tr>";
@@ -137,14 +140,14 @@
                         echo "</table>";
 
                         // Frees up the memory, after using the result pointer
-                        mysqli_free_result($result);
+                        pg_free_result($result);
                     }
                 } else {
                     $searchTextValid = false;
                 }
             }
             // Close the database connection
-            mysqli_close($conn);
+            pg_close($conn);
 
             // Options to go back and search for more and go to homepage
             echo "<button class=\"btn btn-customMain float-left\" onclick=\"history.back()\">Search For Another Status</button>"
