@@ -70,7 +70,7 @@
 
                     $statusText = $_GET["statusText"];
                     // Make and Execute the query for the search
-                    $query = "SELECT * FROM status WHERE statusText LIKE '%$statusText%'";
+                    $query = "SELECT * FROM status WHERE statusText ILIKE '%$statusText%'";
                     $result = pg_query($conn, $query);
 
                     if (!$result) {
@@ -78,7 +78,7 @@
                     } else {
                         $databaseSearchValid = true;
                         // Count the amount of Searches found in the database
-                        $countSearchQuery = "SELECT COUNT(*) AS searches FROM status WHERE statusText LIKE '%$statusText%'";
+                        $countSearchQuery = "SELECT COUNT(*) AS searches FROM status WHERE statusText ILIKE '%$statusText%'";
                         $countResult = pg_query($conn, $countSearchQuery);
                         $searchAmount = pg_fetch_assoc($countResult);
 
@@ -122,17 +122,17 @@
                                 $rowCount++;
                             }
                         } else {
-                            // Looping through the statusText field using a result pointer
+                            // Looping through the statusText field using a result pointer, it's lower case due to Postgres converting them so
                             while ($row = pg_fetch_assoc($result)) {
                                 $tbodyColor = ($rowCount % 2) ? "subThemeColor4" : "subThemeColor3";
                                 echo "<tbody class=\"$tbodyColor\">";
                                 echo "<tr>";
                                 echo "<td>", $rowCount++, "</td>";
-                                echo "<td>", $row["statusCode"], "</td>";
-                                echo "<td>", $row["statusText"], "</td>";
-                                echo "<td>", date("d/m/Y", strtotime($row["datePosted"])), "</td>";
-                                echo "<td>", $row["shareSetting"], "</td>";
-                                echo "<td>", $row["permType"], "</td>";
+                                echo "<td>", $row["statuscode"], "</td>";
+                                echo "<td>", $row["statustext"], "</td>";
+                                echo "<td>", date("d/m/Y", strtotime($row["dateposted"])), "</td>";
+                                echo "<td>", $row["sharesetting"], "</td>";
+                                echo "<td>", $row["permtype"], "</td>";
                                 echo "</tr>";
                                 echo "</tbody>";
                             }
