@@ -46,7 +46,15 @@
     // );
 
     // SQLite Connect for Heroku
-    $conn = new PDO('sqlite:database.sqlite');
+    $db = parse_url(getenv("DATABASE_URL"));
+    $conn = new PDO("pgsql:" . sprintf(
+        "host=%s;port=%s;user=%s;password=%s;dbname=%s",
+        $db["host"],
+        $db["port"],
+        $db["user"],
+        $db["pass"],
+        ltrim($db["path"], "/")
+    ));
 
     // Initialising the Validation / Confirmation Variables
     $databaseHasConn = $databaseInsertValid = false;
@@ -109,16 +117,16 @@
 
                 // Check if the table exists, create if it still doesn't
                 $checkQuery = "SELECT ID FROM status";
-                $checkResult = mysqli_query($conn, $checkQuery);
+                $checkResult = pg_query($conn, $checkQuery);
                 if (empty($checkResult)) {
                     $createQuery = "create table status (statusCode varchar(5) NOT NULL UNIQUE, statusText text NOT NULL, datePosted Date NOT NULL, shareSetting varchar(40), permType varchar(40));";
-                    $checkResult = mysqli_query($conn, $createQuery);
+                    $checkResult = pg_query($conn, $createQuery);
                 }
-                
+
                 // Check if the Status Code is Unique
                 $checkQuery = "SELECT COUNT(*) AS duplicates FROM status WHERE statusCode = \"$statusCode\"";
-                $countResult = mysqli_query($conn, $checkQuery);
-                $duplicateAmount = mysqli_fetch_assoc($countResult);
+                $countResult = pg_query($conn, $checkQuery);
+                $duplicateAmount = pg_fetch_assoc($countResult);
                 $statusCodeUniqueValid = ($duplicateAmount['duplicates'] == 0); // Update Status Code Uniqueness Flag
 
                 // Check if the share radio buttons are set (Optional)
@@ -140,7 +148,7 @@
                     . "('$statusCode','$statusText','$dbDate', '$shareSetting', '$permType')";
 
                 // Executes the query
-                $result = mysqli_query($conn, $query);
+                $result = pg_query($conn, $query);
                 // Checks if the execution was successful
                 if (!$result) {
                     $databaseInsertValid = false;
@@ -150,7 +158,7 @@
             }
         }
         // Close the database connection
-        mysqli_close($conn);
+        pg_close($conn);
     }
     ?>
 

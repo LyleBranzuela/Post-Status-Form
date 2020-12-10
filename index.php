@@ -62,8 +62,10 @@
                     <p class="card-text">
                         <strong>Name: </strong>Lyle Branzuela<br />
                         <strong>Student ID: </strong>17982811<br />
-                        <strong>Email: </strong>
+                        <strong>School Email: </strong>
                         <a href="mailto:gpm5514@autuni.ac.nz"><u>gpm5514@autuni.ac.nz</u></a><br />
+                        <strong>Personal Email: </strong>
+                        <a href="mailto:lylebranzuela@gmail.com"><u>lylebranzuela@gmail.com</u></a><br />
                     </p>
                 </div>
             </div>
