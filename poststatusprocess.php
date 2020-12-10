@@ -107,6 +107,14 @@
                 $statusCodeFormatValid = (!empty($statusCode));
                 $statusTextFormatValid = (!empty($statusText));
 
+                // Check if the table exists, create if it still doesn't
+                $checkQuery = "SELECT ID FROM status";
+                $checkResult = mysqli_query($conn, $checkQuery);
+                if (empty($checkResult)) {
+                    $createQuery = "create table status (statusCode varchar(5) NOT NULL UNIQUE, statusText text NOT NULL, datePosted Date NOT NULL, shareSetting varchar(40), permType varchar(40));";
+                    $checkResult = mysqli_query($conn, $createQuery);
+                }
+                
                 // Check if the Status Code is Unique
                 $checkQuery = "SELECT COUNT(*) AS duplicates FROM status WHERE statusCode = \"$statusCode\"";
                 $countResult = mysqli_query($conn, $checkQuery);
@@ -123,14 +131,6 @@
                     // eg. "Allow Like, Allow Comment, Allow Share"
                     $permType = implode(', ', $_POST["permType"]);
                     $permTypeArr = $_POST["permType"];
-                }
-
-                // Check if the table exists, create if it still doesn't
-                $checkQuery = "SELECT ID FROM status";
-                $checkResult = mysqli_query($conn, $checkQuery);
-                if (empty($checkResult)) {
-                    $createQuery = "create table status (statusCode varchar(5) NOT NULL UNIQUE, statusText text NOT NULL, datePosted Date NOT NULL, shareSetting varchar(40), permType varchar(40));";
-                    $checkResult = mysqli_query($conn, $createQuery);
                 }
 
                 // Set up the SQL command to add the data into the table
