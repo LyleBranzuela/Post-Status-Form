@@ -20,7 +20,7 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <div class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" href="index.html" alt="Home">Home</a>
+                    <a class="nav-link" href="index.php" alt="Home">Home</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="about.html" alt="About">About</a>
@@ -413,7 +413,7 @@
                         <div class="card-body">
                             <div class="row">
                                 <button class="btn btn-customMain col-sm-6" onclick="history.back()">Go Back</button>
-                                <a class="btn btn-customMain col-sm-6 <?php echo (($databaseInsertValid) ? "" : "disabled") ?>" role="button" href="./index.html">Confirm</a>
+                                <a class="btn btn-customMain col-sm-6 <?php echo (($databaseInsertValid) ? "" : "disabled") ?>" role="button" href="./index.php">Confirm</a>
                             </div>
                         </div>
                     </div>

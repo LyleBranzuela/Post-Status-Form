@@ -21,7 +21,7 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <div class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" href="index.html" alt="Home">Home</a>
+                    <a class="nav-link" href="index.php" alt="Home">Home</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="about.html" alt="About">About</a>
@@ -148,7 +148,7 @@
 
             // Options to go back and search for more and go to homepage
             echo "<button class=\"btn btn-customMain float-left\" onclick=\"history.back()\">Search For Another Status</button>"
-                . "<a class=\"btn btn-customMain float-right\" role=\"button\" href=\"./index.html\">Go Home</a>";
+                . "<a class=\"btn btn-customMain float-right\" role=\"button\" href=\"./index.php\">Go Home</a>";
         }
         ?>
 
