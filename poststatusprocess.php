@@ -125,6 +125,22 @@
                     $permTypeArr = $_POST["permType"];
                 }
 
+                // Check if the table exists, create if it still doesn't
+                $checkQuery = "SELECT * FROM $sql_tble";
+                $checkResult = mysqli_query($conn, $checkQuery);
+                if (empty($checkResult)) {
+                    $createQuery = "CREATE TABLE USERS (
+                        ID int(11) AUTO_INCREMENT,
+                        EMAIL varchar(255) NOT NULL,
+                        PASSWORD varchar(255) NOT NULL,
+                        PERMISSION_LEVEL int,
+                        APPLICATION_COMPLETED int,
+                        APPLICATION_IN_PROGRESS int,
+                        PRIMARY KEY  (ID)
+                        )";
+                    $checkResult = mysqli_query($conn, $createQuery);
+                }
+
                 // Set up the SQL command to add the data into the table
                 $query = "insert into $sql_tble"
                     . "(statusCode, statusText, datePosted, shareSetting, permType)"
