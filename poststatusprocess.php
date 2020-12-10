@@ -37,15 +37,16 @@
 
     <!-- PHP Code to process information in the Form -->
     <?php
-
-    require_once('../../conf/assignsqlinfo.inc.php');
     // mysqli_connect returns false if connection failed, otherwise a connection value
-    $conn = @mysqli_connect(
-        $sql_host,
-        $sql_user,
-        $sql_pass,
-        $sql_db
-    );
+    // $conn = @mysqli_connect(
+    //     $sql_host,
+    //     $sql_user,
+    //     $sql_pass,
+    //     $sql_db
+    // );
+
+    // SQLite Connect for Heroku
+    $conn = new PDO('sqlite:database.sqlite');
 
     // Initialising the Validation / Confirmation Variables
     $databaseHasConn = $databaseInsertValid = false;
